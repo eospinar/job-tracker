@@ -10,7 +10,7 @@ import { randomUUID } from 'node:crypto';
 import path from 'node:path';
 import { get, put, BlobPreconditionFailedError } from '@vercel/blob';
 
-const BLOB_PATH = 'job-tracker/applications.json';
+const BLOB_PATH = process.env.BLOB_PATH || 'job-tracker/applications.json';
 const DATA_DIR = path.resolve(import.meta.dirname, '../../data');
 const FILE_PATH = path.join(DATA_DIR, 'applications.json');
 
@@ -18,7 +18,9 @@ const blobDriver = {
   async read() {
     const res = await get(BLOB_PATH, { access: 'private', useCache: false });
     if (!res) return { items: [], version: null };
-    return { items: JSON.parse(await new Response(res.stream).text()), version: res.blob.etag };
+    // get() puede devolver un ETag débil (W/"…") pero put({ ifMatch }) compara contra el fuerte ("…").
+    const version = res.blob.etag.replace(/^W\//, '');
+    return { items: JSON.parse(await new Response(res.stream).text()), version };
   },
   async write(items, version) {
     await put(BLOB_PATH, JSON.stringify(items), {
