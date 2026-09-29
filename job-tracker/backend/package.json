@@ -8,6 +8,7 @@
     "start": "node --env-file-if-exists=.env src/server.js"
   },
   "dependencies": {
+    "@vercel/blob": "^2.8.0",
     "cors": "^2.8.5",
     "express": "^5.1.0"
   }

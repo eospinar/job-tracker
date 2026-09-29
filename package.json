@@ -1,0 +1,12 @@
+{
+  "name": "job-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Dependencias de la función /api para el despliegue en Vercel",
+  "dependencies": {
+    "@vercel/blob": "^2.8.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}

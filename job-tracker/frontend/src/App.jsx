@@ -4,13 +4,23 @@ import Sidebar from './components/Sidebar.jsx';
 import KpiCards from './components/KpiCards.jsx';
 import KanbanBoard from './components/KanbanBoard.jsx';
 import NewApplicationDialog from './components/NewApplicationDialog.jsx';
+import ApiKeyPrompt from './components/ApiKeyPrompt.jsx';
 import { useApplications } from './hooks/useApplications.js';
 
 export default function App() {
   const [view, setView] = useState('jobs');
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { applications, loading, error, setError, moveApplication, addApplication, deleteApplication } =
-    useApplications();
+  const {
+    applications,
+    loading,
+    error,
+    setError,
+    unauthorized,
+    unlock,
+    moveApplication,
+    addApplication,
+    deleteApplication,
+  } = useApplications();
 
   const handleDelete = async (id) => {
     if (!confirm('¿Eliminar esta aplicación?')) return;
@@ -20,6 +30,8 @@ export default function App() {
       setError(err.message);
     }
   };
+
+  if (unauthorized) return <ApiKeyPrompt onSubmit={unlock} />;
 
   const showBoard = view === 'dashboard' || view === 'jobs';
 

@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm install && npm --prefix job-tracker/frontend install",
+  "buildCommand": "npm --prefix job-tracker/frontend run build",
+  "outputDirectory": "job-tracker/frontend/dist",
+  "rewrites": [{ "source": "/api/:path*", "destination": "/api" }]
+}

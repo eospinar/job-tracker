@@ -79,8 +79,11 @@ async function saveJob(job) {
 }
 ```
 
-Si defines `API_KEY` en `job-tracker/backend/.env`, las escrituras exigen el header `x-api-key`.
+Si defines `API_KEY` en `job-tracker/backend/.env`, todas las rutas exigen el header `x-api-key` (en Vercel es obligatorio). En la extensión, cambia la URL por la de producción y agrega `'x-api-key': '<tu clave>'`.
 
-## Cambiar a Supabase
+## Despliegue en Vercel
 
-Reemplaza `job-tracker/backend/src/lib/store.js` manteniendo las mismas funciones (`list`, `findByUrl`, `create`, `update`, `remove`) usando `@supabase/supabase-js`.
+- `api/index.js` expone la app Express como función serverless; `vercel.json` compila el frontend y redirige `/api/*` a esa función.
+- Almacenamiento: con `BLOB_READ_WRITE_TOKEN` definido (store de **Vercel Blob privado** conectado al proyecto) los datos se guardan en un blob JSON privado; en local, en `job-tracker/backend/data/applications.json`.
+- Variable obligatoria en Vercel: **`API_KEY`**. Todas las rutas de `/api/applications` (también las lecturas) exigen el header `x-api-key`; sin ella la API responde 500. El frontend pide la clave una vez y la guarda en el navegador.
+- Cada `git push` a `main` redespliega automáticamente.
