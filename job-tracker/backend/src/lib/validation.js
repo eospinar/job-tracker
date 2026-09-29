@@ -7,6 +7,9 @@ export const SOURCES = [
   'LinkedIn',
   'Indeed',
   'Magneto',
+  'Lever',
+  'Greenhouse',
+  'Workday',
   'Web Corporativa',
   'Otro',
 ];
@@ -32,6 +35,9 @@ function sourceFromUrl(url) {
     if (host.includes('linkedin')) return 'LinkedIn';
     if (host.includes('indeed')) return 'Indeed';
     if (host.includes('magneto')) return 'Magneto';
+    if (host.endsWith('lever.co')) return 'Lever';
+    if (host.endsWith('greenhouse.io')) return 'Greenhouse';
+    if (host.endsWith('myworkdayjobs.com')) return 'Workday';
     return 'Web Corporativa';
   } catch {
     return 'Otro';
@@ -56,7 +62,8 @@ function toIsoDate(value) {
 /**
  * Valida y normaliza el payload de creación.
  * Acepta alias comunes que suelen enviar los scrapers de la extensión:
- *   title/position → role, company_name → company, link/jobUrl → url, date → appliedAt
+ *   title/position/job_title → role, company_name → company, link/jobUrl/source_url → url,
+ *   date/application_date → appliedAt, source_platform → source
  */
 export function validateCreate(body) {
   const errors = [];
@@ -64,11 +71,12 @@ export function validateCreate(body) {
     return { errors: ['El cuerpo debe ser un objeto JSON'] };
   }
 
-  const role = str(body.role ?? body.title ?? body.position);
+  const role = str(body.role ?? body.title ?? body.position ?? body.job_title);
   const company = str(body.company ?? body.companyName ?? body.company_name);
-  const url = str(body.url ?? body.link ?? body.jobUrl);
+  const url = str(body.url ?? body.link ?? body.jobUrl ?? body.source_url);
+  const source = str(body.source ?? body.source_platform);
   const status = str(body.status) || 'applied';
-  const appliedAt = toIsoDate(body.appliedAt ?? body.applied_at ?? body.date);
+  const appliedAt = toIsoDate(body.appliedAt ?? body.applied_at ?? body.application_date ?? body.date);
 
   if (!role) errors.push('"role" es obligatorio');
   if (!company) errors.push('"company" es obligatorio');
@@ -79,7 +87,7 @@ export function validateCreate(body) {
   const data = {
     role: role.slice(0, MAX.role),
     company: company.slice(0, MAX.company),
-    source: body.source ? normalizeSource(body.source) : url ? sourceFromUrl(url) : 'Otro',
+    source: source ? normalizeSource(source) : url ? sourceFromUrl(url) : 'Otro',
     url: url || null,
     status,
     appliedAt,

@@ -57,7 +57,13 @@ cd job-tracker/frontend && npm install && npm run dev     # http://localhost:517
 - Si no se envía `source`, se deduce del dominio de `url` (computrabajo, elempleo, michaelpage, linkedin…; otro dominio = "Web Corporativa").
 - `status` ∈ `to_apply | applied | interview | offered | rejected` (por defecto `applied`).
 
-### Desde la extensión de Chrome
+También acepta los nombres de campo de la extensión: `job_title`, `company_name`, `application_date`, `source_url`, `source_platform`.
+
+### Extensión de Chrome
+
+La extensión completa está en [`chrome-extension/`](chrome-extension/) (instalación y selectores en su README).
+
+### Llamada manual desde otra extensión
 
 `manifest.json` (MV3):
 

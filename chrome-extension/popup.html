@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Job Tracker</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <span class="logo">JT</span>
+        <div>
+          <h1>Guardar oferta</h1>
+          <p id="detected" class="muted">Analizando la página…</p>
+        </div>
+      </div>
+      <span id="platformBadge" class="badge" hidden></span>
+    </header>
+
+    <form id="jobForm" autocomplete="off">
+      <label>
+        Rol / Cargo *
+        <input id="job_title" required maxlength="200" />
+      </label>
+
+      <label>
+        Empresa *
+        <input id="company_name" required maxlength="200" />
+      </label>
+
+      <div class="row">
+        <label>
+          Portal
+          <input id="source_platform" list="platforms" maxlength="60" />
+          <datalist id="platforms">
+            <option value="Computrabajo"></option>
+            <option value="El Empleo"></option>
+            <option value="Michael Page"></option>
+            <option value="LinkedIn"></option>
+            <option value="Indeed"></option>
+            <option value="Magneto"></option>
+            <option value="Lever"></option>
+            <option value="Greenhouse"></option>
+            <option value="Workday"></option>
+            <option value="Web Corporativa"></option>
+            <option value="Otro"></option>
+          </datalist>
+        </label>
+        <label>
+          Fecha
+          <input id="application_date" type="date" required />
+        </label>
+      </div>
+
+      <label>
+        Link de la oferta
+        <input id="source_url" type="url" />
+      </label>
+
+      <div class="row">
+        <label>
+          Estado
+          <select id="status">
+            <option value="to_apply">Por Aplicar</option>
+            <option value="applied" selected>Aplicado</option>
+            <option value="interview">Entrevista</option>
+            <option value="offered">Ofertado</option>
+            <option value="rejected">Rechazado</option>
+          </select>
+        </label>
+        <label>
+          Ubicación
+          <input id="location" maxlength="200" />
+        </label>
+      </div>
+
+      <p id="posted" class="muted small" hidden></p>
+
+      <button id="saveBtn" type="submit" class="primary">Guardar en mi CRM</button>
+      <div id="message" class="message" role="status" hidden></div>
+    </form>
+
+    <details id="settings">
+      <summary>Configuración</summary>
+      <form id="settingsForm">
+        <label>
+          URL de la API
+          <input id="apiUrl" type="url" required />
+        </label>
+        <label>
+          API key (header x-api-key)
+          <input id="apiKey" type="password" autocomplete="off" />
+        </label>
+        <button type="submit" class="secondary">Guardar configuración</button>
+        <p id="settingsMsg" class="muted small" hidden></p>
+      </form>
+    </details>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -14,6 +14,9 @@ export const SOURCE_STYLES = {
   LinkedIn: 'bg-blue-100 text-blue-700 ring-blue-200',
   Indeed: 'bg-indigo-100 text-indigo-700 ring-indigo-200',
   Magneto: 'bg-pink-100 text-pink-700 ring-pink-200',
+  Lever: 'bg-teal-100 text-teal-700 ring-teal-200',
+  Greenhouse: 'bg-lime-100 text-lime-700 ring-lime-200',
+  Workday: 'bg-amber-100 text-amber-700 ring-amber-200',
   'Web Corporativa': 'bg-emerald-100 text-emerald-700 ring-emerald-200',
 };
 export const DEFAULT_SOURCE_STYLE = 'bg-slate-100 text-slate-600 ring-slate-200';
