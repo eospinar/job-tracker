@@ -5,3 +5,6 @@ dist/
 job-tracker/backend/data/
 .DS_Store
 *.log
+.vercel
+.env*
+!.env.example
